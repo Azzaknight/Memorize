@@ -9,13 +9,12 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        //@ViewBuilder
-        // HStack<TupleView<CardView, CardView, CardView, CardView>>
+    
         HStack{
-            CardView(symbol: "👻", isFaceUp: true)
             CardView(symbol: "👻")
-            CardView(symbol: "👻")
-            CardView(symbol: "👻")
+            CardView(symbol: "🎃")
+            CardView(symbol: "👹")
+            CardView(symbol: "🕷")
             
         }
         
@@ -27,18 +26,26 @@ struct ContentView: View {
 
 struct CardView: View {
     
+    @State var isFaceUp = true
     var symbol: String
-    var isFaceUp = false
+    
     
     var body: some View {
-        if isFaceUp {
-            ZStack {
-                RoundedRectangle(cornerRadius: 12).foregroundColor(.white)
-                RoundedRectangle(cornerRadius: 12).strokeBorder(lineWidth: 2)
+       
+        ZStack {
+            let base = RoundedRectangle(cornerRadius: 12)
+            //let base = Circle()
+            
+            if isFaceUp {
+                base.fill(.white)
+                base.strokeBorder(lineWidth: 2)
                 Text(symbol).font(.largeTitle)
+            } else {
+                base.fill()
             }
-        } else {
-            RoundedRectangle(cornerRadius: 12)
+        }
+        .onTapGesture {
+            isFaceUp.toggle()
         }
     }
 }
@@ -48,7 +55,15 @@ struct CardView: View {
 
 
 
-
+/*
+ @ViewBuilder
+ HStack<TupleView<CardView, CardView, CardView, CardView>>
+ View Builders can do
+ - Conditionals
+ - List
+ - local variables
+ - Switch (part of conditionals)
+ */
 
 
 
