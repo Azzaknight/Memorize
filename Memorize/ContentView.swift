@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    let emojis: [String] = ["👻","🎃","👹","🕷","🕸","🦇","💀"]
+    
     var body: some View {
     
         HStack{
-            CardView(symbol: "👻")
-            CardView(symbol: "🎃")
-            CardView(symbol: "👹")
-            CardView(symbol: "🕷")
             
+            ForEach(emojis.indices, id: \.self ) { index in
+                CardView(symbol: emojis[index])
+            }
         }
         
         .foregroundColor(.orange)
@@ -27,7 +28,7 @@ struct ContentView: View {
 struct CardView: View {
     
     @State var isFaceUp = true
-    var symbol: String
+    let symbol: String
     
     
     var body: some View {
