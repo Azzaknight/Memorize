@@ -8,48 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
-    let emojis: [String] = ["👻","🎃","👹","🕷","🕸","🦇","💀"]
+    @State var emojis = ["👻","🎃","👹","🕷","🕷","👹","💀","👻","🎃","💀"].shuffled()
+    let halloweenEmojis = ["👻","🎃","👹","🕷","🕷","👹","💀","👻","🎃","💀"]
+    let smileyEmojis = ["😀","😀","😍","😍","🥸","🥸","🤩","🤩","😎","😎"]
+    let animalEmojis = ["🦊","🦊","🐶","🐶","🐱","🐱","🦄","🦖","🦄","🦖"]
     @State var cardCount: Int = 4
-    
     
     var body: some View {
     
         VStack {
+            Text("Memorize!").font(.largeTitle)
             ScrollView {
                 cards
             }
-            Spacer()
-            cardCountAdjusters
+            cardThemeSelectors
         }
         .padding()
     }
   
-    func cardCountAdjuster(by offset: Int, symbol: String) -> some View {
-        Button (action: {
-            cardCount += offset
-        }, label: {
-            Image(systemName: symbol)
-                
-        })
-        .disabled(cardCount + offset > emojis.count || cardCount + offset < 1)
-    }
-    
-    var cardRemover: some View {
-        
-        cardCountAdjuster(by: -1, symbol: "rectangle.stack.fill.badge.minus")
-        
-    }
-    
-    var cardAdder: some View {
-        
-        cardCountAdjuster(by: +1, symbol: "rectangle.stack.fill.badge.plus")
-        
-    }
-    
     var cards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]){
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]){
             
-            ForEach(0..<cardCount, id: \.self ) { index in
+            ForEach(0..<emojis.count, id: \.self ) { index in
                 CardView(symbol: emojis[index])
                     .aspectRatio(2/3, contentMode: .fit)
             }
@@ -57,21 +37,57 @@ struct ContentView: View {
         .foregroundColor(.orange)
     }
     
-    var cardCountAdjusters: some View {
+    
+    
+    var smileyThemeSelector: some View {
+        Button(action: {emojis = smileyEmojis.shuffled()}, label:
+                {
+            VStack {
+                Image(systemName: "smiley.fill").font(.largeTitle)
+                Text("Smiley").font(.body)
+            }
+        })
+    }
+    
+    var halloweenThemeSelector: some View {
+        Button(action: {emojis = halloweenEmojis.shuffled()}, label:
+                {
+            VStack {
+                Image(systemName: "flame.fill").font(.largeTitle)
+                Text("Halloween").font(.body)
+            }
+        })
+    }
+    
+    var animalThemeSelector: some View {
+        Button(action: {emojis = animalEmojis.shuffled()}, label:
+                {
+            VStack {
+                Image(systemName: "pawprint.fill").font(.largeTitle)
+                Text("Animal").font(.body)
+            }
+        })
+    }
+    
+    var cardThemeSelectors: some View {
         HStack {
-            cardRemover
             Spacer()
-            cardAdder
+            smileyThemeSelector
+            Spacer()
+            halloweenThemeSelector
+            Spacer()
+            animalThemeSelector
+            Spacer()
         }
         .imageScale(.large)
-        .font(.largeTitle)
+        .font(.title)
     }
 }
 
 
 struct CardView: View {
     
-    @State var isFaceUp = true
+    @State var isFaceUp = false
     let symbol: String
     
     
