@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    var viewModel: EmojiMemoryGame
+    
     @State var emojis = ["👻","🎃","👹","🕷","🕷","👹","💀","👻","🎃","💀"].shuffled()
     let halloweenEmojis = ["👻","🎃","👹","🕷","🕷","👹","💀","👻","🎃","💀"]
     let smileyEmojis = ["😀","😀","😍","😍","🥸","🥸","🤩","🤩","😎","😎"]
