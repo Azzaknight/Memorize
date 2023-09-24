@@ -12,11 +12,12 @@ import SwiftUI
 // It arranges the model data for the view nicely
 
 // The ViewModel for the game
-class EmojiMemoryGame {
+class EmojiMemoryGame: ObservableObject {
     
-    private static let emojis = ["👻","🎃","👹","🕷","🧙‍♀️","🧛🏻‍♀️","💀","🧟","🕸️","🍭"]
     
-    private var model = MemoryGame(numberOfPairOfCards: 4) { pairIndex in
+    static private let emojis = ["👻","🎃","👹","🕷","🧙‍♀️","🧛🏻‍♀️","💀","🧟","🕸️","🍭"]
+    
+    @Published private var model = MemoryGame(numberOfPairOfCards: 10) { pairIndex in
         if emojis.indices.contains(pairIndex){
             return emojis[pairIndex]
         } else {
@@ -28,7 +29,13 @@ class EmojiMemoryGame {
         return model.cards
     }
     
-    // Intent function - the users intent to select a card! 
+    // MARK: - Intents
+    
+    func shuffle() {
+        model.shuffle()
+    }
+    
+    
     func choose(_ card: MemoryGame<String>.Card) {
         model.choose(card)
     }
